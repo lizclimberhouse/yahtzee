@@ -1,8 +1,18 @@
 import React from 'react';
 import Dice from './Dice';
 import { Grid, Button, Divider } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { rollDice } from '../actions/currentGame';
 
-const Board = ({ roll, dice, rollDice, keep, toggleKept, }) => {
+  //NO LONGER NEEDED WHEN SWITCHED FROM REACT TO REDUX
+const Board = ({ 
+  roll, 
+  dice, 
+  // rollDice, 
+  keep, 
+  // toggleKept, 
+  dispatch, //this is needed to be albe to roll the dice
+}) => {
   const maxRoll = roll === 3;
   const disabled = maxRoll ? { disabled: true } : {}
   return (
@@ -10,7 +20,8 @@ const Board = ({ roll, dice, rollDice, keep, toggleKept, }) => {
       <Grid.Row>
         <Button
           fluid
-          onClick={rollDice}
+          onClick={() => dispatch(rollDice())}
+          // onClick={rollDice}
           {...disabled}
         >
           { maxRoll ? 'Score Roll' : 'Roll Dice' }
@@ -22,7 +33,13 @@ const Board = ({ roll, dice, rollDice, keep, toggleKept, }) => {
             dice.map( (d,i) => {
               const kept = keep.includes(i)
               return (
-                <Dice key={i} value={d} kept={kept} toggleKept={toggleKept} index={i} />
+                <Dice 
+                  key={i} 
+                  value={d} 
+                  kept={kept} 
+                  // toggleKept={toggleKept} 
+                  index={i} 
+                />
               )
             })
         }
@@ -31,4 +48,14 @@ const Board = ({ roll, dice, rollDice, keep, toggleKept, }) => {
   )
 }
 
-export default Board;
+const mapStateToProps = (state) => {//need to get rollm dice, and keep out of the redux store for the const Board at the top of this file.
+  const { roll, dice, keep } = state.currentGame;
+  return {
+    roll,
+    dice,
+    keep,
+  }
+}
+
+export default connect(mapStateToProps)(Board);
+// export default Board;
