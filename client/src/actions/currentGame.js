@@ -1,8 +1,11 @@
+import axios from 'axios';
+
 export const ROLL_DICE = 'ROLL_DICE';
 export const TOGGLE_KEPT = 'TOGGLE_KEPT';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const RESET_ROLL = 'RESET_ROLL';
 export const NEW_GAME = 'NEW_GAME';
+export const POST_SCORE = 'POST_SCORE';
 
 export const updateScores = (scores) => {
   return { type: UPDATE_SCORE, scores }
@@ -14,6 +17,15 @@ export const resetRoll = () => {
 
 export const newGame = () => {
   return { type: NEW_GAME }
+}
+
+export const postScore = (value) => {
+  return (dispatch) => {
+    axios.post('/api/scores', { score: { value }} ) // aka { value: value } but bc ES6 then just { value } see the controller. this is the params you are passing over (a hash that has a key of score with a ... ) lecture wednesday 3/28 12:10pm
+      .then( ({ headers }) => {
+        dispatch({ type: 'HEADERS', headers })
+      })
+  }
 }
 
 export const rollDice = () => {

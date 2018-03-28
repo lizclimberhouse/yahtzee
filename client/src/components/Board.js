@@ -2,7 +2,7 @@ import React from 'react';
 import Dice from './Dice';
 import { Grid, Button, Divider, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { rollDice, newGame } from '../actions/currentGame';
+import { rollDice, newGame, postScore } from '../actions/currentGame';
 
 // changed to class
 
@@ -34,8 +34,11 @@ import { rollDice, newGame } from '../actions/currentGame';
           if ( s.score === null )
             gameOver = false
         })
-      if (gameOver && !this.state.gameOver) //only want to set this state if gameOVer is true and we haven't already set that state is true. Since we are calling this in our render we dont want to get stuck in an infinate loop
-        this.setState({ gameOver })
+      if (gameOver && !this.state.gameOver)  {//only want to set this state if gameOVer is true and we haven't already set that state is true. Since we are calling this in our render we dont want to get stuck in an infinate loop
+        const score = this.calcScore();
+        this.props.dispatch(postScore(score))
+        this.setState({ gameOver }) // ^ see above comment
+      }
     }
 
     calcScore = () => {
