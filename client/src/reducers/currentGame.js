@@ -1,4 +1,4 @@
-import { ROLL_DICE, TOGGLE_KEPT } from '../actions/currentGame';
+import { ROLL_DICE, TOGGLE_KEPT, UPDATE_SCORE, RESET_ROLL, NEW_GAME } from '../actions/currentGame';
 
 // 1's - 6's need to add total dice of that value
 // if you get Three of a kind', 'Four of a kind', or 'Chance' you add up all of the dice
@@ -13,11 +13,11 @@ const scores = [
   { section: 'upper', name: 'Sixes', score: null, value: 6 },
   { section: 'lower', name: 'Three of a kind', score: null, addAll: true },
   { section: 'lower', name: 'Four of a kind', score: null, addAll: true },
-  { section: 'lower', name: 'Chance', score: null, addAll: true },
   { section: 'lower', name: 'Full House', score: null },
   { section: 'lower', name: 'Low Straight', score: null },
   { section: 'lower', name: 'Hight Straight', score: null },
   { section: 'lower', name: 'Yahtzee', score: null },
+  { section: 'lower', name: 'Chance', score: null, addAll: true },
 ]
 
 const currentGame = (
@@ -30,6 +30,25 @@ const currentGame = (
   action
 ) => {
   switch (action.type) {
+    case UPDATE_SCORE:
+      return {
+        ...state,
+        scores: action.scores //return all of state, except for scores, those come from the action.
+      }
+    case RESET_ROLL:
+      return {
+        ...state,
+        roll: 0,
+        dice: [...new Array(5)],
+        keep: []
+      }
+    case NEW_GAME:
+      return {
+        roll: 0,
+        dice: [...new Array(5)],
+        keep: [],
+        scores: scores.map( s => { return { ...s, score: null } } )
+      }
     case ROLL_DICE:
       return {
         ...state,

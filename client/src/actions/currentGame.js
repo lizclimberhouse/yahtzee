@@ -1,5 +1,20 @@
 export const ROLL_DICE = 'ROLL_DICE';
 export const TOGGLE_KEPT = 'TOGGLE_KEPT';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const RESET_ROLL = 'RESET_ROLL';
+export const NEW_GAME = 'NEW_GAME';
+
+export const updateScores = (scores) => {
+  return { type: UPDATE_SCORE, scores }
+}
+
+export const resetRoll = () => {
+  return { type: RESET_ROLL }
+}
+
+export const newGame = () => {
+  return { type: NEW_GAME }
+}
 
 export const rollDice = () => {
   return (dispatch, getState) => { // this getState is access to your redux store
