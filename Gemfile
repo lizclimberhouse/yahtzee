@@ -26,11 +26,14 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors'
 gem 'omniauth'
 gem 'devise_token_auth'
+gem 'kaminari'
+# is a server side pagination..gives you pages of data, each page with 20 things.
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
+  gem 'faker'
 end
 
 group :development do
